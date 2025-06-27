@@ -1,10 +1,17 @@
 import React from 'react'
-import {Link} from 'react-router-dom'; // For navigation links
+import {Link, Navigate} from 'react-router-dom'; // For navigation links
 import {MessageSquare, Settings, User, LogOut} from 'lucide-react'; // Icons for the navbar
 import {useAuthStore} from '../store/useAuthStore'; // Zustand store for authentication
 
 const Navbar = () => {
   const {logout, authUser} = useAuthStore(); // Zustand store for authentication
+  const navigate = Navigate; // For navigation
+
+  // Handle logout with navigation
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login'); // Navigate to login page after logout
+  };
 
   return (
     <header
@@ -45,7 +52,7 @@ const Navbar = () => {
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
 
-                <button className="flex gap-2 items-center" onClick={logout}>
+                <button className="flex gap-2 items-center" onClick={handleLogout}>
                   <LogOut className="size-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>
