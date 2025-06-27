@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 // can be used in other components easily
 export const useAuthStore = create((set) => ({
   authUser: null, //initially no user is authenticated
+  //loading states for different actions
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
@@ -64,7 +65,19 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  
+  updateProfile: async(data) => {
+    set({isUpdatingProfile: true}); //set loading state
+    try {
+      const response = await axiosInstance.put('/auth/update-profile', data); //send the profile update request
+      set({authUser: response.data}); //update the auth user state with the new profile data
+      toast.success('Profile updated successfully!');
+    } catch (error) {
+      console.log('Error updating profile:', error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({isUpdatingProfile: false}); //reset loading state
+    }
+  }
 
 }));
 
