@@ -10,19 +10,26 @@ import { Toaster } from 'react-hot-toast'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { axiosInstance } from './lib/axios.js'
 import { useAuthStore } from './store/useAuthStore.js'
+import { useThemeStore } from './store/useThemeStore.js'
 import { useEffect } from 'react'
 import { Loader } from 'lucide-react';
 
 const App = () => {
 
-  //setup axios instance for API calls
 
   // Get Auth states from Zustand store
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
 
+  const {theme} = useThemeStore();
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  // Apply theme to the HTML element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   console.log(authUser);
 
@@ -33,7 +40,7 @@ const App = () => {
   )
 
   return (
-    <div>
+    <div >
 
       <Navbar />
       <Routes>
