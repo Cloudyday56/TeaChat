@@ -2,7 +2,7 @@ import {create} from 'zustand';
 import toast from 'react-hot-toast';
 import {axiosInstance} from '../lib/axios.js';
 
-export const useChatStore = create((set) => ({
+export const useChatStore = create((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null, //no user selected by default
@@ -33,8 +33,18 @@ export const useChatStore = create((set) => ({
     }
   },
 
-  // todo: optimize later
+  //send message
+  sendMessage: async(messageData) => {
+    const [selectedUser, messages] = get(); //getter function from zustand
+    try {
+      const response = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData); //endpoint set in backend
+      set({messages: [...messages, response.data]}); //update messages state with new message
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  },
 
+  // todo: optimize later
   //setter functions to update the state
   setSelectedUser: (selectedUser) => set({selectedUser}), //set the selected user for chat
 
