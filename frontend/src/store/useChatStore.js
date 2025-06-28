@@ -35,7 +35,7 @@ export const useChatStore = create((set, get) => ({
 
   //send message
   sendMessage: async(messageData) => {
-    const [selectedUser, messages] = get(); //getter function from zustand
+    const {selectedUser, messages} = get(); //getter function from zustand
     try {
       const response = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData); //endpoint set in backend
       set({messages: [...messages, response.data]}); //update messages state with new message
