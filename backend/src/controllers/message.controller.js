@@ -57,7 +57,7 @@ export const sendMessage = async (req, res) => {
       senderId,
       receiverId,
       text,
-      image: imageUrl //if no image, this will be undefined
+      image: imageUrl, //if no image, this will be undefined
     });
 
     await newMessage.save(); //save the message to the database
