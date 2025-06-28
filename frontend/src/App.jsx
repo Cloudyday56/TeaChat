@@ -14,13 +14,16 @@ import { useThemeStore } from './store/useThemeStore.js'
 import { useEffect } from 'react'
 import { Loader } from 'lucide-react';
 
+
 const App = () => {
 
 
   // Get Auth states from Zustand store
-  const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
+  const {authUser, checkAuth, isCheckingAuth, onlineUsers} = useAuthStore();
 
   const {theme} = useThemeStore();
+
+  console.log(onlineUsers);
 
   useEffect(() => {
     checkAuth();
