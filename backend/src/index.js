@@ -23,7 +23,7 @@ app.use(cors({
 app.use(express.json({ limit: '2mb' })); //limit the JSON data to 2mb
 
 app.use("/api/auth", authRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
     console.log("Server is running on port: " + PORT);

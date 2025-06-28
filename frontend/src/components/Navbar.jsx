@@ -1,11 +1,11 @@
 import React from 'react'
-import {Link, Navigate} from 'react-router-dom'; // For navigation links
+import {Link, useNavigate} from 'react-router-dom'; // For navigation links
 import {MessageSquare, Settings, User, LogOut} from 'lucide-react'; // Icons for the navbar
 import {useAuthStore} from '../store/useAuthStore'; // Zustand store for authentication
 
 const Navbar = () => {
   const {logout, authUser} = useAuthStore(); // Zustand store for authentication
-  const navigate = Navigate; // For navigation
+  const navigate = useNavigate(); // For navigation
 
   // Handle logout with navigation
   const handleLogout = async () => {
