@@ -1,13 +1,16 @@
 import React from 'react'
 import { useAuthStore } from '../store/useAuthStore.js'
 import { useState } from 'react';
-import { Camera, User, Mail } from 'lucide-react';
+import { Camera, User, Mail, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProfilePage = () => {
-  const {authUser, isUpdatingProfile, updateProfile} = useAuthStore();
+  const {authUser, isUpdatingProfile, updateProfile, deleteAccount} = useAuthStore();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const navigate = useNavigate();
 
   //compress image
   const compressImage = (imgSrc, maxWidth = 800, quality = 0.7) => {
@@ -77,6 +80,13 @@ const ProfilePage = () => {
       await updateProfile({ profilePic: compressedImage.data });
     }
   }
+
+  //delete account confirmation
+  const handleDeleteAccount = async () => {
+    await deleteAccount();
+    navigate('/login');
+  };
+
 
   return (
     <div className="h-screen pt-20">
@@ -153,10 +163,46 @@ const ProfilePage = () => {
                 <span className="text-green-500">Active</span>
               </div>
             </div>
+
+            {/* Centered Delete Button */}
+            <div className="mt-6 flex justify-center">
+              <button 
+                onClick={() => setShowDeleteConfirm(true)}
+                className="btn btn-error btn-md flex items-center gap-2"
+              >
+                <Trash2 className="size-5" />
+                <span>Delete Account</span>
+              </button>
+            </div>
           </div>
 
         </div>
       </div>
+
+      {/* delete confirmation */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-base-300 p-6 rounded-lg max-w-md w-full">
+            <h3 className="text-lg font-semibold mb-4">Delete Account</h3>
+            <p className="mb-6">Are you sure you want to delete your account?</p>
+            <div className="flex justify-end gap-3">
+              <button 
+                className="btn btn-sm" 
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-sm btn-error" 
+                onClick={handleDeleteAccount}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

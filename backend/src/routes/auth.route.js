@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, logout, updateProfile, checkAuth} from '../controllers/auth.controller.js';
+import { signup, login, logout, updateProfile, checkAuth, deleteAccount} from '../controllers/auth.controller.js';
 import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router()
@@ -16,6 +16,9 @@ router.put('/update-profile', protectRoute, updateProfile)
 
 //check authentication
 router.get('/check', protectRoute, checkAuth);
+
+//delete account
+router.delete('/delete-account', protectRoute, deleteAccount);
 
 export default router;
 
