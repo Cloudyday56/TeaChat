@@ -2,6 +2,8 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js"; //import cloudinary for image upload
+import Message from "../models/message.model.js"; //import message model to delete user messages when account is deleted
+
 
 //signup controller
 export const signup = async (req, res) => {
@@ -137,6 +139,27 @@ export const checkAuth = async (req, res) => {
 
 };
 
+export const deleteAccount = async (req, res) => {
+    try {
+        const userId = req.user._id; //user added from the protectRoute middleware
+        if (!userId) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        // delete user messages
+        await Message.deleteMany({
+        $or: [{ senderId: userId }, { receiverId: userId }]
+        });
+
+        await User.findByIdAndDelete(userId); //del user
+        // Clear auth cookie
+        res.cookie("jwt", "", { maxAge: 0 });
+        res.status(200).json({ message: 'Account deleted successfully' });
+    } catch (error) {
+        console.log("Error during account deletion:", error.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 
 

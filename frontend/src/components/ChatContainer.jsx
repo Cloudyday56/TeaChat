@@ -90,15 +90,22 @@ const ChatContainer = () => {
               </time>
             </div>
             {/* message display */}
-            <div className="chat-bubble flex">
+            <div className="chat-bubble flex flex-col items-start max-w-[70%]">
               {/* image */}
               {message.image && (
+                <a 
+                  href={message.image} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block hover:opacity-90 transition-opacity"
+                >
                 <img
                   src={message.image}
                   alt="Attachment"
                   className="sm:max-w-[200px] rounded-md mb-2"
                   onLoad={handleImageLoad}
                 />
+                </a>
               )}
               {/* text */}
               {message.text && <p>{message.text}</p>}
