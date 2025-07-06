@@ -7,3 +7,6 @@ A full-stack messaging application built with React.js, Node.js, and Socket.io e
 - Backend: Node.js, Express.js, Socket.io, JWT
 - Database: MongoDB
 - Cloud Services: Cloudinary, Render.com
+
+## Acknowledgments
+This project is made based on a lesson in [Codesistency](https://www.youtube.com/@codesistency)'s Udemy course
